@@ -16,19 +16,24 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
+    setSuccess(null)
     setLoading(true)
     try {
       const res = await register({ name, email, password })
       if (!res.success) {
-        setError(res.message)
-        setSuccess(null)
+        setError(res.message || "No se pudo registrar. Intente nuevamente.")
+        setLoading(false)
         return
       }
+      const backendMsg = res.message && String(res.message).trim()
+      const professionalMsg =
+        backendMsg ||
+        "Registro exitoso. Se ha enviado un correo de verificación a su casilla de correo. Por favor, revise su bandeja (y la carpeta de correo no deseado) y siga las instrucciones para activar su cuenta."
+      setSuccess(professionalMsg)
       setError(null)
-      setSuccess(res.message || "Registro exitoso")
-      setTimeout(() => navigate("/login"), 900)
+      setTimeout(() => navigate("/login"), 1400)
     } catch (err) {
-      setError("Error inesperado")
+      setError("Error inesperado. Por favor intente de nuevo.")
     } finally {
       setLoading(false)
     }
