@@ -1,0 +1,64 @@
+
+.groups-container { height: 100%; background: var(--surface-color, #fff); }
+.groups-header { display:flex; justify-content:space-between; align-items:center; }
+
+.group-item {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #e9edef);
+    border-radius: 8px;
+    background: var(--surface-color, #fff);
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+}
+
+.group-placeholder {
+    width: 48px;
+    height: 48px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius: 50%;
+    background: var(--primary-color, #25d366);
+    color: white; font-weight:700;
+}
+
+.create-group-btn {
+    background: var(--primary-color, #25d366);
+    color: white;
+    border: none;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.modal-overlay {
+    position: fixed; inset:0;
+    background: rgba(0,0,0,0.35);
+    display:flex; align-items:center; justify-content:center; z-index:60;
+}
+.modal {
+    background: var(--surface-color,#fff);
+    width: 90%; max-width: 720px; border-radius: 10px; overflow:hidden;
+}
+.modal-header, .modal-footer { padding: 1rem; border-bottom: 1px solid var(--border-color,#e9edef); }
+.modal-body { padding: 1rem; }
+.field { margin-bottom: 1rem; }
+.contacts-select { display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: .5rem; max-height:220px; overflow:auto; padding-right: .25rem; }
+.contact-checkbox { display:flex; gap:.5rem; align-items:center; padding:.25rem; border-radius:6px; cursor:pointer; }
+
+.group-details { display:flex; flex-direction:column; height:100%; }
+.group-details-header { display:flex; align-items:center; gap:1rem; padding:1rem; border-bottom:1px solid var(--border-color,#e9edef); }
+
+.members-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:.5rem; }
+.member-item { display:flex; align-items:center; gap:.75rem; padding:.5rem; border-radius:8px; border:1px solid var(--border-color,#e9edef); }
+.member-item img { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+
+.btn { padding:.5rem .75rem; border-radius:8px; cursor:pointer; }
+.btn.primary { background:var(--primary-color,#25d366); color:white; border:none; }
+.btn.secondary { background:transparent; border:1px solid var(--border-color,#e9edef); }
+.btn.danger { background:#ffdddd; color:#a00; }
+.btn.small { padding:.25rem .5rem; font-size:.85rem; border-radius:6px; }
+.modal .contacts-select { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: .5rem; }
+.modal .contact-checkbox img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+.modal .member-item select { padding: .25rem .5rem; border-radius: 6px; }
