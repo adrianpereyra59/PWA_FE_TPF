@@ -4,25 +4,25 @@ import { Link } from "react-router-dom"
 import "../Styles/auth.css"
 
 export default function ForgotPasswordPage() {
-  const { sendResetEmail } = useAuth()
+  const { forgotPassword } = useAuth()
   const [email, setEmail] = useState("")
-  const [message, setMessage] = useState(null)
-  const [token, setToken] = useState(null)
+  const [msg, setMsg] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setMessage(null)
+    setMsg(null)
+    if (!email || !email.includes("@")) { setMsg({ type: "error", text: "Email inválido" }); return }
     setLoading(true)
-    const res = sendResetEmail(email)
-    setLoading(false)
-    if (!res.success) {
-      setMessage({ type: "error", text: res.message })
-      setToken(null)
-      return
+    try {
+      const res = await forgotPassword({ email })
+      if (res.success) setMsg({ type: "success", text: res.message })
+      else setMsg({ type: "error", text: res.message || "Error" })
+    } catch (err) {
+      setMsg({ type: "error", text: err?.message || "Error" })
+    } finally {
+      setLoading(false)
     }
-    setMessage({ type: "info", text: "Token de recuperación creado (simulado)." })
-    setToken(res.token)
   }
 
   return (
@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         <h2 id="forgot-title">Recuperar contraseña</h2>
-        <p className="auth-sub">Ingrese el email con el que se registró. Recibirá un enlace simulado.</p>
+        <p className="auth-sub">Ingrese el email con el que se registró. Recibirá un correo con instrucciones.</p>
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <label className="auth-field">
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
             <input className="auth-input" type="email" placeholder="tu@ejemplo.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </label>
 
-          {message && <div className={`auth-notice ${message.type === "error" ? "auth-error" : "auth-success"}`}>{message.text}</div>}
+          {msg && <div className={`auth-notice ${msg.type === "error" ? "auth-error" : "auth-success"}`}>{msg.text}</div>}
 
           <div className="auth-actions">
             <button type="submit" className="btn primary auth-btn" disabled={loading}>
@@ -49,14 +49,6 @@ export default function ForgotPasswordPage() {
             </button>
             <Link to="/login" className="auth-link">Volver a iniciar sesión</Link>
           </div>
-
-          {token && (
-            <div className="auth-token">
-              <div>Enlace simulado:</div>
-              <Link to={`/reset-password/${token}`} className="auth-token-link">/reset-password/{token}</Link>
-              <div className="auth-note">Este token expira en 1 hora (simulado).</div>
-            </div>
-          )}
         </form>
       </div>
     </div>

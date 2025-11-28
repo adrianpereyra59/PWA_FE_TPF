@@ -15,8 +15,6 @@ import RegisterPage from "../Pages/RegisterPage"
 import ForgotPasswordPage from "../Pages/ForgotPasswordPage"
 import ResetPasswordPage from "../Pages/ResetPasswordPage"
 
-
-
 export default function WhatsAppRouter() {
     return (
         <AuthProvider>
@@ -24,13 +22,12 @@ export default function WhatsAppRouter() {
                 <Router>
                     <div className="whatsapp-app">
                         <Routes>
-                            {/* Public auth routes */}
                             <Route path="/login" element={<LoginPage />} />
                             <Route path="/register" element={<RegisterPage />} />
                             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                             <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+                            <Route path="/reset/:token" element={<ResetPasswordPage />} />
 
-                            
                             <Route
                                 path="/"
                                 element={

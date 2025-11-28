@@ -13,20 +13,25 @@ export default function RegisterPage() {
   const [success, setSuccess] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setError(null)
     setLoading(true)
-    const res = register({ name, email, password })
-    setLoading(false)
-    if (!res.success) {
-      setError(res.message)
-      setSuccess(null)
-      return
+    try {
+      const res = await register({ name, email, password })
+      if (!res.success) {
+        setError(res.message)
+        setSuccess(null)
+        return
+      }
+      setError(null)
+      setSuccess(res.message || "Registro exitoso")
+      setTimeout(() => navigate("/login"), 900)
+    } catch (err) {
+      setError("Error inesperado")
+    } finally {
+      setLoading(false)
     }
-    setError(null)
-    setSuccess(res.message)
-    setTimeout(() => navigate("/login"), 900)
   }
 
   return (

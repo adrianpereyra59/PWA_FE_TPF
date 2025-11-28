@@ -12,7 +12,7 @@ export default function ResetPasswordPage() {
   const [message, setMessage] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setMessage(null)
     if (!password || password.length < 4) {
@@ -24,14 +24,20 @@ export default function ResetPasswordPage() {
       return
     }
     setLoading(true)
-    const res = resetPassword(token, password)
-    setLoading(false)
-    if (!res.success) {
-      setMessage({ type: "error", text: res.message })
-      return
+    try {
+      const res = await resetPassword({ token, password })
+      if (!res.success) {
+        setMessage({ type: "error", text: res.message })
+        setLoading(false)
+        return
+      }
+      setMessage({ type: "success", text: res.message })
+      setTimeout(() => navigate("/login"), 900)
+    } catch (err) {
+      setMessage({ type: "error", text: err?.message || "Error" })
+    } finally {
+      setLoading(false)
     }
-    setMessage({ type: "success", text: res.message })
-    setTimeout(() => navigate("/login"), 900)
   }
 
   return (

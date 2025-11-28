@@ -16,17 +16,16 @@ export default function LoginPage() {
     setError(null)
     setLoading(true)
     try {
-      const res = login({ email, password })
+      const res = await login({ email, password })
       if (!res.success) {
-        setError(res.message)
+        setError(res.message || "inicio de sesión fallido")
         setLoading(false)
         return
       }
-      // login ok
-      setLoading(false)
       navigate("/", { replace: true })
     } catch (err) {
       setError("Error inesperado. Intentá de nuevo.")
+    } finally {
       setLoading(false)
     }
   }
